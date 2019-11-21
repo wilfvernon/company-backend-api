@@ -1,0 +1,2 @@
+class CommunityCharacter < ApplicationRecord
+end

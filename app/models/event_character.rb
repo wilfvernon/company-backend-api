@@ -1,0 +1,2 @@
+class EventCharacter < ApplicationRecord
+end

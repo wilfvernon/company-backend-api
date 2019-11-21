@@ -1,0 +1,2 @@
+class EventThread < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class ContentEvent < ApplicationRecord
+end
