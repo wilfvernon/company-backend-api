@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_21_155919) do
+ActiveRecord::Schema.define(version: 2019_11_21_185950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,14 +29,16 @@ ActiveRecord::Schema.define(version: 2019_11_21_155919) do
     t.boolean "primary"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "api_id"
   end
 
   create_table "communities", force: :cascade do |t|
     t.string "name"
-    t.string "type"
+    t.string "category"
     t.string "server"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "api_id"
   end
 
   create_table "community_characters", force: :cascade do |t|
@@ -56,12 +58,13 @@ ActiveRecord::Schema.define(version: 2019_11_21_155919) do
 
   create_table "contents", force: :cascade do |t|
     t.string "name"
-    t.string "type"
+    t.string "category"
     t.string "image"
     t.integer "minimum_level"
     t.integer "minimum_ilevel"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "api_id"
   end
 
   create_table "event_characters", force: :cascade do |t|
@@ -94,7 +97,7 @@ ActiveRecord::Schema.define(version: 2019_11_21_155919) do
     t.datetime "time"
     t.string "location"
     t.integer "community_id"
-    t.string "type"
+    t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
