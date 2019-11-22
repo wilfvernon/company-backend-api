@@ -1,13 +1,19 @@
 require 'rest-client'
 require 'JSON'
 
+class Time
+    def self.gen(hour, minute)
+        Time.local(2019, "nov", 22, hour, minute, 0)
+    end
+end
+
 # Account.destroy_all
 # Character.destroy_all
 # Community.destroy_all
 # Content.destroy_all
-# Event.destroy_all
-# ContentEvent.destroy_all
-# EventCharacter.destroy_all
+Event.destroy_all
+ContentEvent.destroy_all
+EventCharacter.destroy_all
 
 # a1 = Account.create({
 #     username: "smi"
@@ -60,7 +66,9 @@ require 'JSON'
 
 event = {
     name: "E3S prog",
-    time: DateTime.civil(2019, 11, 22, 19, 0, 0, 0),
+    start_time: Time.gen(14, 0),
+    end_time: Time.gen(16, 0),
+    date: Date.new(2019, 11, 22),
     community_id: 11,
     category: "Savage Raid",
     description: "Let's go raiding"
