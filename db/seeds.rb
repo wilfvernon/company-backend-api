@@ -1,26 +1,30 @@
 require 'rest-client'
 require 'JSON'
 
-Account.destroy_all
-Character.destroy_all
+# Account.destroy_all
+# Character.destroy_all
 # Community.destroy_all
 # Content.destroy_all
+# Event.destroy_all
+# ContentEvent.destroy_all
+# EventCharacter.destroy_all
 
-a1 = Account.create({
-    username: "smi"
-})
+# a1 = Account.create({
+#     username: "smi"
+# })
 
-response = RestClient.get("https://xivapi.com/character/18875885")
-data = JSON.parse(response)["Character"]
-character = {
-    api_id: data["ID"].to_s,
-    name: data["Name"],
-    server: data["Server"],
-    profile_image: data["Avatar"],
-    account_id: a1.id ,
-    primary: true
-}
-Character.create(character)
+
+# response = RestClient.get("https://xivapi.com/character/18875885")
+# data = JSON.parse(response)["Character"]
+# character = {
+#     api_id: data["ID"].to_s,
+#     name: data["Name"],
+#     server: data["Server"],
+#     profile_image: data["Avatar"],
+#     account_id: a1.id ,
+#     primary: true
+# }
+# Character.create(character)
 
 # response = RestClient.get("http://xivapi.com/freecompany/9229283011365769087")
 # data = JSON.parse(response)["FreeCompany"]
@@ -53,3 +57,26 @@ Character.create(character)
 #     }
 #     Content.create(content)
 # end
+
+# event = {
+#     name: "E3S prog",
+#     time: DateTime.civil(2019, 11, 22, 19, 0, 0, 0),
+#     community_id: 11,
+#     category: "Savage Raid",
+#     description: "Let's go raiding"
+# }
+# e1 = Event.create(event)
+
+# content_event = {
+#     content_id: 16,
+#     event_id: e1.id
+# }
+# ContentEvent.create(content_event)
+
+# event_character = {
+#     event_id: e1.id,
+#     character_id: 2,
+#     organiser: false
+# }
+
+# EventCharacter.create(event_character)
