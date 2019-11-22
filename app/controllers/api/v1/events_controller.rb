@@ -10,8 +10,7 @@ module Api
                 events = Event.all.select{|event|event.account_ids.include?(params[:id].to_i)}
                 events = events.map do |event|{
                     event: event, 
-                    community: event.community_id ? Community.find(event.community_id).name : null,
-                    time: event.time
+                    community: event.community_id ? Community.find(event.community_id).name : null
                     }
                 end
                 render json: events

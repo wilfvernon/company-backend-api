@@ -58,25 +58,25 @@ require 'JSON'
 #     Content.create(content)
 # end
 
-# event = {
-#     name: "E3S prog",
-#     time: DateTime.civil(2019, 11, 22, 19, 0, 0, 0),
-#     community_id: 11,
-#     category: "Savage Raid",
-#     description: "Let's go raiding"
-# }
-# e1 = Event.create(event)
+event = {
+    name: "E3S prog",
+    time: DateTime.civil(2019, 11, 22, 19, 0, 0, 0),
+    community_id: 11,
+    category: "Savage Raid",
+    description: "Let's go raiding"
+}
+e1 = Event.create(event)
 
-# content_event = {
-#     content_id: 16,
-#     event_id: e1.id
-# }
-# ContentEvent.create(content_event)
+content_event = {
+    content_id: 16,
+    event_id: e1.id
+}
+ContentEvent.create(content_event)
 
-# event_character = {
-#     event_id: e1.id,
-#     character_id: 2,
-#     organiser: false
-# }
+event_character = {
+    event_id: e1.id,
+    character_id: 2,
+    organiser: false
+}
 
-# EventCharacter.create(event_character)
+EventCharacter.create(event_character)
