@@ -8,7 +8,7 @@ module Api
 
             def account_index
                 events = Event.all.select{|event|event.account_ids.include?(params[:id].to_i)}
-                events = events.map {|event| event_json(event)}
+                events = events.sort_by{|event|event.start_time}.map{|event| event_json(event)}
                 render json: events
             end
             
@@ -24,21 +24,28 @@ module Api
                     description: e["description"],
                     community_id: params["eventCommunityId"]
                 }
-                event = Event.create(event)
+                event = Event.new(event)
+                if event.save
 
-                event_character = {
-                    character_id: params["eventCharacterId"],
-                    event_id: event.id,
-                    organiser: true 
-                }
+                    event_character = {
+                        character_id: params["eventCharacterId"],
+                        event_id: event.id,
+                        organiser: true 
+                    }
 
-                EventCharacter.create(event_character)
 
-                content_event = {
-                    content_id: params["eventContentId"],
-                    event_id: event.id
-                }
-                ContentEvent.create(content_event)
+                    content_event = {
+                        content_id: params["eventContentId"],
+                        event_id: event.id
+                    }
+                    if EventCharacter.create(event_character) && ContentEvent.create(content_event)
+                        render json: {valid: true, event: event_json(event)}
+                    else
+                        render json: {valid: false}
+                    end
+                else
+                    render json: {valid: false}
+                end
                 
             end
 
@@ -57,8 +64,10 @@ module Api
                         dateString: event.start_time.strftime("%A, %d %B"), 
                         start: event.start_time.strftime("%H:%M"), 
                         end: event.end_time.strftime("%H:%M"),
-                        timezone: event.start_time.strftime("%z")}
+                        timezone: event.start_time.strftime("%z"),
+                        happened: !!(DateTime.now > event.end_time)
                     }
+                }
             end
 
             def time_split(time)
