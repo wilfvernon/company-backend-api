@@ -11,9 +11,9 @@ end
 # Character.destroy_all
 # Community.destroy_all
 # Content.destroy_all
-# Event.destroy_all
-# ContentEvent.destroy_all
-# EventCharacter.destroy_all
+Event.destroy_all
+ContentEvent.destroy_all
+EventCharacter.destroy_all
 # CommunityCharacter.destroy_all
 
 # a1 = Account.create({
@@ -65,30 +65,29 @@ end
 #     Content.create(content)
 # end
 
-# event = {
-#     name: "E3S prog",
-#     start_time: Time.gen(14, 0),
-#     end_time: Time.gen(16, 0),
-#     date: Date.new(2019, 11, 22),
-#     community_id: 11,
-#     category: "Savage Raid",
-#     description: "Let's go raiding"
-# }
-# e1 = Event.create(event)
+event = {
+    name: "E3S prog",
+    start_time: Time.local(2019, 11, 22, 14, 0),
+    end_time: Time.local(2019, 11, 22, 16, 0),
+    community_id: 11,
+    category: "Savage Raid",
+    description: "Let's go raiding"
+}
+e1 = Event.create(event)
 
-# content_event = {
-#     content_id: 16,
-#     event_id: e1.id
-# }
-# ContentEvent.create(content_event)
+content_event = {
+    content_id: 16,
+    event_id: e1.id
+}
+ContentEvent.create(content_event)
 
-# event_character = {
-#     event_id: e1.id,
-#     character_id: 2,
-#     organiser: false
-# }
+event_character = {
+    event_id: e1.id,
+    character_id: 2,
+    organiser: false
+}
 
-# EventCharacter.create(event_character)
+EventCharacter.create(event_character)
 
 # community_character = {
 #     community_id: Community.all.first.id,

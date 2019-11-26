@@ -13,16 +13,15 @@ module Api
             end
             
             def create
-
+                e = params["event"]
                 event = {
-                    name: params["event"]["name"],
-                    start_time: time_split(params["event"]["start"]),
-                    end_time: time_split(params["event"]["end"]),
-                    date: date_split(params["event"]["date"]),
-                    location: params["event"]["location"],
-                    purpose: params["event"]["purpose"],
-                    category: params["event"]["category"],
-                    description: params["event"]["description"],
+                    name: e["name"],
+                    start_time: time_gen(e["start"], e["date"]),
+                    end_time: time_gen(e["end"], e["date"]),
+                    location: e["location"],
+                    purpose: e["purpose"],
+                    category: e["category"],
+                    description: e["description"],
                     community_id: params["eventCommunityId"]
                 }
                 event = Event.create(event)
@@ -54,26 +53,26 @@ module Api
                     community: event.community_id ? Community.find(event.community_id).name : nil,
                     purpose: event.purpose ? event.purpose : nil,
                     time: {
-                        date: event.date.strftime("%d-%m-%y"), 
-                        dateString: event.date.strftime("%A, %d %B"), 
+                        date: event.start_time.strftime("%d-%m-%y"), 
+                        dateString: event.start_time.strftime("%A, %d %B"), 
                         start: event.start_time.strftime("%H:%M"), 
                         end: event.end_time.strftime("%H:%M"),
-                        timezone: event.date.strftime("%z")}
+                        timezone: event.start_time.strftime("%z")}
                     }
             end
 
-            def time_gen(hour, minute)
-                Time.local(2019, "nov", 22, hour, minute, 0)
-            end
-
-            def time_split(string)
-                timeArray = string.split(":").map{|number|number.to_i}
-                time_gen(timeArray[0], timeArray[1])
+            def time_split(time)
+                time.split(":").map{|number|number.to_i}
             end
 
             def date_split(string)
-                date = string.split("-").map{|number|number.to_i}
-                Date.new(date[0], date[1], date[2])
+                string.split("-").map{|number|number.to_i}
+            end
+
+            def time_gen(time, date)
+                t_arr = time_split(time)
+                d_arr = date_split(date)
+                DateTime.new(d_arr[0], d_arr[1], d_arr[2], t_arr[0], t_arr[1])
             end
         end
     end
