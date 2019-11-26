@@ -3,6 +3,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       get "/accounts/validate/:name", to: "accounts#validate"
       get "/accounts/:id/events", to: "events#account_index"
+      get "/accounts/:id/characters", to: "characters#account_index"
+      get "/accounts/:id/communities", to: "communities#account_index"
+      get "/characters/:id/communities", to: "communities#character_index"
+
       resources :characters
       resources :event_posts
       resources :event_threads
