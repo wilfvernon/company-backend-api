@@ -9,12 +9,12 @@ end
 
 # Account.destroy_all
 # Character.destroy_all
-# Community.destroy_all
 # Content.destroy_all
 Event.destroy_all
 ContentEvent.destroy_all
 EventCharacter.destroy_all
-# CommunityCharacter.destroy_all
+Community.destroy_all
+CommunityCharacter.destroy_all
 
 # a1 = Account.create({
 #     username: "smi"
@@ -33,15 +33,18 @@ EventCharacter.destroy_all
 # }
 # Character.create(character)
 
-# response = RestClient.get("http://xivapi.com/freecompany/9229283011365769087")
-# data = JSON.parse(response)["FreeCompany"]
-# company = {
-#     api_id: data["ID"].to_s,
-#     name: data["Name"],
-#     server: data["Server"],
-#     category: "FC"
-# }
-# Community.create(company)
+response = RestClient.get("http://xivapi.com/freecompany/9229283011365769087")
+data = JSON.parse(response)["FreeCompany"]
+company = {
+    api_id: data["ID"].to_s,
+    name: data["Name"],
+    server: data["Server"],
+    category: "FC",
+    image_base: data["Crest"][0],
+    image_mid: data["Crest"][1],
+    image_top: data["Crest"][2]
+}
+company = Community.create(company)
 
 # company = {
 #     name: "bad boys",
@@ -69,7 +72,7 @@ event = {
     name: "E3S prog",
     start_time: Time.local(2019, 11, 22, 14, 0),
     end_time: Time.local(2019, 11, 22, 16, 0),
-    community_id: 11,
+    community_id: company.id,
     category: "Savage Raid",
     description: "Let's go raiding"
 }
@@ -89,10 +92,10 @@ event_character = {
 
 EventCharacter.create(event_character)
 
-# community_character = {
-#     community_id: Community.all.first.id,
-#     character_id: Character.all.last.id,
-#     role: "member"
-# }
+community_character = {
+    community_id: Community.all.first.id,
+    character_id: Character.all.last.id,
+    role: "member"
+}
 
-# CommunityCharacter.create(community_character)
+CommunityCharacter.create(community_character)
