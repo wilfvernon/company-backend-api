@@ -6,9 +6,9 @@ module Api
             end
             def show
                 if community = Community.all.find{|community|community.api_id == params[:id].to_s}
-                    render json: community
+                    render json: { community: community, characters: community.characters } 
                 else community = Community.find(params[:id]) 
-                    render json: community
+                    render json: { community: community, characters: community.characters } 
                 end
             end
 
