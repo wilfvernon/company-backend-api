@@ -6,6 +6,11 @@ module Api
                 render json: events
             end
 
+            def show
+                event = Event.find(params[:id])
+                render json: { event: event_json(event), members: event.characters, content: event.contents }
+            end
+
             def account_index
                 events = Event.all.select{|event|event.account_ids.include?(params[:id].to_i)}
                 events = events.sort_by{|event|event.start_time}.map{|event| event_json(event)}
@@ -57,7 +62,8 @@ module Api
                     name: event.name,
                     category: event.category,
                     location: event.location, 
-                    community: event.community_id ? Community.find(event.community_id).name : nil,
+                    community: event.community_id ? Community.find(event.community_id).name : "None",
+                    community_id: event.community_id,
                     purpose: event.purpose ? event.purpose : nil,
                     time: {
                         date: event.start_time.strftime("%d-%m-%y"), 

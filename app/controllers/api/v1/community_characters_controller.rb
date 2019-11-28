@@ -12,7 +12,6 @@ module Api
                     role: "member"
             })
             render json: cc.save ? { valid: true } : { valid: false }
-
             end
         end
     end
