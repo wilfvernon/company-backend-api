@@ -16,6 +16,13 @@ module Api
                 events = events.sort_by{|event|event.start_time}.map{|event| event_json(event)}
                 render json: events
             end
+
+            def account_upcoming_index
+                communities = Community.all.select{|community| community.account_ids.include?(params[:id].to_i)}
+                members = communities.map{|community|community.characters}.flatten.uniq{|character|character.id}
+                events = members.map{|member|member.events}.flatten.uniq{|event|event.id}.select{|event| DateTime.now < event.end_time}.sort_by{|event|event.start_time}.map{|event| event_json(event)}
+                render json: events
+            end
             
             def create
                 e = params["event"]
@@ -65,6 +72,7 @@ module Api
                     community: event.community_id ? Community.find(event.community_id).name : "None",
                     community_id: event.community_id,
                     purpose: event.purpose ? event.purpose : nil,
+                    organiser: event.organiser,
                     time: {
                         date: event.start_time.strftime("%d-%m-%y"), 
                         dateString: event.start_time.strftime("%A, %d %B"), 

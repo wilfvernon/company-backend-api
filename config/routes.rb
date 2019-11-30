@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       get "/accounts/validate/:name", to: "accounts#validate"
       get "/accounts/validate_new/:name", to: "accounts#validate_new"
       get "/accounts/:id/events", to: "events#account_index"
+      get "/accounts/:id/upcoming_events", to: "events#account_upcoming_index"
       get "/accounts/:id/characters", to: "characters#account_index"
       get "/accounts/:id/communities", to: "communities#account_index"
       get "/characters/:id/communities", to: "communities#character_index"
