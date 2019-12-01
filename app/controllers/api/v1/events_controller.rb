@@ -73,11 +73,14 @@ module Api
                     community_id: event.community_id,
                     purpose: event.purpose ? event.purpose : nil,
                     organiser: event.organiser,
+                    content: event.contents[0],
                     time: {
                         date: event.start_time.strftime("%d-%m-%y"), 
                         dateString: event.start_time.strftime("%A, %d %B"), 
-                        start: event.start_time.strftime("%H:%M"), 
-                        end: event.end_time.strftime("%H:%M"),
+                        start: event.start_time,
+                        start_time: event.start_time.strftime("%H:%M"), 
+                        end: event.end_time,
+                        end_time: event.end_time.strftime("%H:%M"),
                         timezone: event.start_time.strftime("%z"),
                         happened: !!(DateTime.now > event.end_time)
                     }

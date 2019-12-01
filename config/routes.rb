@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get "/accounts/:id/characters", to: "characters#account_index"
       get "/accounts/:id/communities", to: "communities#account_index"
       get "/characters/:id/communities", to: "communities#character_index"
+      get "/communities/search", to: "communities#search"
 
       resources :characters
       resources :event_posts

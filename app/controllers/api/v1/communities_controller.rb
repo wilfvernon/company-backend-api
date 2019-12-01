@@ -21,6 +21,14 @@ module Api
                 communities = Community.all.select{|community| community.account_ids.include?(params[:id].to_i)}
                 render json: communities
             end
+
+            def search
+                if params["query"] != ""
+                    communities = Community.select{|community|community.name.downcase.include?(params["query"].downcase)}
+                    render json: communities
+                else render json: []
+                end
+            end
         end
     end
 end
