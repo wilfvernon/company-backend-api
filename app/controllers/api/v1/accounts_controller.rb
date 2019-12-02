@@ -8,6 +8,7 @@ module Api
                     character = {
                         name: c["name"],
                         profile_image: c["profile_image"],
+                        avatar: c["avatar"],
                         server: c["server"],
                         api_id: c["account_id"],
                         account_id: account.id,

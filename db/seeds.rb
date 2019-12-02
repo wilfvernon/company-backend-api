@@ -7,8 +7,8 @@ class Time
     end
 end
 
-# Account.destroy_all
-# Character.destroy_all
+Account.destroy_all
+Character.destroy_all
 # Content.destroy_all
 Event.destroy_all
 ContentEvent.destroy_all
@@ -16,22 +16,23 @@ EventCharacter.destroy_all
 Community.destroy_all
 CommunityCharacter.destroy_all
 
-# a1 = Account.create({
-#     username: "smi"
-# })
+a1 = Account.create({
+    username: "smi"
+})
 
 
-# response = RestClient.get("https://xivapi.com/character/18875885")
-# data = JSON.parse(response)["Character"]
-# character = {
-#     api_id: data["ID"].to_s,
-#     name: data["Name"],
-#     server: data["Server"],
-#     profile_image: data["Avatar"],
-#     account_id: a1.id ,
-#     primary: true
-# }
-# Character.create(character)
+response = RestClient.get("https://xivapi.com/character/18875885")
+data = JSON.parse(response)["Character"]
+character = {
+    api_id: data["ID"].to_s,
+    name: data["Name"],
+    server: data["Server"],
+    profile_image: data["Avatar"],
+    avatar: data["Portrait"],
+    account_id: a1.id ,
+    primary: true
+}
+character = Character.create(character)
 
 response = RestClient.get("http://xivapi.com/freecompany/9229283011365769087")
 data = JSON.parse(response)["FreeCompany"]
@@ -42,16 +43,18 @@ company = {
     category: "FC",
     image_base: data["Crest"][0],
     image_mid: data["Crest"][1],
-    image_top: data["Crest"][2]
+    image_top: data["Crest"][2],
+    description: "Hey I'm Some and I like pizza"
 }
 company = Community.create(company)
 
-# company = {
-#     name: "bad boys",
-#     server: "Cactuar",
-#     category: "Static"
-# }
-# Community.create(company)
+new_company = {
+    name: "bad boys",
+    server: "Cactuar",
+    category: "Static",
+    description: "We like to go raiding"
+}
+Community.create(new_company)
 
 # currentRaidIds=*(30078..30087)
 # currentRaidIds.map do |id|
@@ -70,11 +73,12 @@ company = Community.create(company)
 
 event = {
     name: "E3S prog",
-    start_time: Time.local(2019, 11, 22, 14, 0),
-    end_time: Time.local(2019, 11, 22, 16, 0),
+    start_time: Time.local(2019, 12, 22, 14, 0),
+    end_time: Time.local(2019, 12, 22, 16, 0),
     community_id: company.id,
     category: "Savage Raid",
-    description: "Let's go raiding"
+    description: "Let's go raiding",
+    icon: "https://xivapi.com/i/061000/061802.png"
 }
 e1 = Event.create(event)
 
@@ -86,8 +90,8 @@ ContentEvent.create(content_event)
 
 event_character = {
     event_id: e1.id,
-    character_id: 2,
-    organiser: false
+    character_id: character.id,
+    organiser: true
 }
 
 EventCharacter.create(event_character)

@@ -8,7 +8,7 @@ module Api
 
             def show
                 event = Event.find(params[:id])
-                render json: { event: event_json(event), members: event.characters, content: event.contents }
+                render json: event_json(event)
             end
 
             def account_index
@@ -34,7 +34,8 @@ module Api
                     purpose: e["purpose"],
                     category: e["category"],
                     description: e["description"],
-                    community_id: params["eventCommunityId"]
+                    community_id: params["eventCommunityId"],
+                    icon: e["icon"]
                 }
                 event = Event.new(event)
                 if event.save
@@ -70,10 +71,14 @@ module Api
                     category: event.category,
                     location: event.location, 
                     community: event.community_id ? Community.find(event.community_id).name : "None",
+                    community_image: event.community_id ? [Community.find(event.community_id).image_base, Community.find(event.community_id).image_mid, Community.find(event.community_id).image_top] : [],
                     community_id: event.community_id,
+                    description: event.description,
                     purpose: event.purpose ? event.purpose : nil,
                     organiser: event.organiser,
                     content: event.contents[0],
+                    icon: event.icon,
+                    members: event.characters,
                     time: {
                         date: event.start_time.strftime("%d-%m-%y"), 
                         dateString: event.start_time.strftime("%A, %d %B"), 
