@@ -5,11 +5,14 @@ module Api
                 render json: Community.all
             end
             def show
-                if community = Community.all.find{|community|community.api_id == params[:id].to_s}
-                    render json: { community: community, members: community.members, admins: community.admins } 
-                else community = Community.find(params[:id]) 
-                    render json: { community: community, members: community.members, admins: community.admins, events: community.events.map{|event|event_json(event)}} 
-                end
+                community = Community.find(params[:id]) 
+                render json: { 
+                    community: community, 
+                    members: community.members, 
+                    admins: community.admins, 
+                    events: community.events.map{|event|event_json(event)},
+                    threads: community.community_threads.map{|thread|{thread: thread, poster: thread.character}}
+                } 
             end
 
             def character_index

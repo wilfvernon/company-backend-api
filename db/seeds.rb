@@ -104,18 +104,34 @@ end
 
 # CommunityCharacter.create(community_character)
 
-et1={
+# et1={
+#     title: "When should we raid?",
+#     event_id: Event.all.last.id,
+#     character_id: Character.all.first.id
+# }
+
+# et2={
+#     title: "Don't forget loot",
+#     event_id: Event.all.last.id,
+#     character_id: Character.all.last.id
+# }
+
+# et1 = EventThread.create(et1)
+# et2 = EventThread.create(et2)
+
+ct1={
     title: "When should we raid?",
-    event_id: Event.all.last.id,
+    community_id: Community.all.first.id,
     character_id: Character.all.first.id
 }
 
-et2={
+ct2={
     title: "Don't forget loot",
-    event_id: Event.all.last.id,
+    community_id: Community.all.first.id,
     character_id: Character.all.last.id
 }
 
-et1 = EventThread.create(et1)
-et2 = EventThread.create(et2)
+ct1 = CommunityThread.create(ct1)
+ct2 = CommunityThread.create(ct2)
+
 
