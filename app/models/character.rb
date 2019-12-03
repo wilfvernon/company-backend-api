@@ -4,4 +4,6 @@ class Character < ApplicationRecord
     has_many :communities, through: :community_characters
     has_many :event_characters
     has_many :events, through: :event_characters
+    has_many :event_threads
+    has_many :event_posts
 end

@@ -4,6 +4,7 @@ class Event < ApplicationRecord
     has_many :contents, through: :content_events
     has_many :event_characters
     has_many :characters, through: :event_characters
+    has_many :event_threads
 
     def account_ids
         self.characters.map{|character|character.account.id}

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get "/accounts/:id/communities", to: "communities#account_index"
       get "/characters/:id/communities", to: "communities#character_index"
       get "/communities/search", to: "communities#search"
+      get "/events/:id/threads", to: "event_threads#event_index"
 
       resources :characters
       resources :event_posts
