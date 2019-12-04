@@ -11,9 +11,23 @@ module Api
                     character_id: params["character_id"].to_i,
                     organiser: false
                 })
+
                 event = Event.find(params["event_id"].to_i)
 
-                render json: ec.save ? { valid: true, event: event_json(event) } : { valid: false }
+                if ec.save 
+                    params[:job_ids].map{|job_id|
+                            ecj={
+                                job_id: job_id,
+                                event_character_id: ec.id,
+                                selected: false
+                            }
+                            EventCharacterJob.create(ecj)
+                        }
+
+                    
+                    render json: { valid: true, event: event_json(event), ec: {character: ec.character, jobs: ec.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}} } 
+                else render json: { valid: false }
+                end
             end
 
             private

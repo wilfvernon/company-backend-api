@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_03_174259) do
+ActiveRecord::Schema.define(version: 2019_12_03_193341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,14 @@ ActiveRecord::Schema.define(version: 2019_12_03_174259) do
     t.string "api_id"
   end
 
+  create_table "event_character_jobs", force: :cascade do |t|
+    t.integer "job_id"
+    t.integer "event_character_id"
+    t.boolean "selected"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "event_characters", force: :cascade do |t|
     t.integer "character_id"
     t.integer "event_id"
@@ -126,6 +134,16 @@ ActiveRecord::Schema.define(version: 2019_12_03_174259) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.string "icon"
+  end
+
+  create_table "jobs", force: :cascade do |t|
+    t.string "name"
+    t.string "icon"
+    t.string "role"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "abv"
+    t.string "role_type"
   end
 
   create_table "loops", force: :cascade do |t|

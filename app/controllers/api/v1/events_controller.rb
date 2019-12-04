@@ -26,6 +26,7 @@ module Api
             
             def create
                 e = params["event"]
+                byebug
                 event = {
                     name: e["name"],
                     start_time: time_gen(e["start"], e["date"]),
@@ -51,7 +52,17 @@ module Api
                         content_id: params["eventContentId"],
                         event_id: event.id
                     }
-                    if EventCharacter.create(event_character) && ContentEvent.create(content_event)
+
+                    event_character=EventCharacter.new(event_character)
+                    if event_character.save && ContentEvent.create(content_event)
+                        params[:jobIds].map{|job_id|
+                            ecj={
+                                job_id: job_id,
+                                event_character_id: event_character.id,
+                                selected: false
+                            }
+                            EventCharacterJob.create(ecj)
+                        }
                         render json: {valid: true, event: event_json(event)}
                     else
                         render json: {valid: false}
@@ -78,7 +89,7 @@ module Api
                     organiser: event.organiser,
                     content: event.contents[0],
                     icon: event.icon,
-                    members: event.characters,
+                    members: event.event_characters.select{|ec|!ec.organiser}.map{|ec|{character: ec.character, jobs: ec.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}, id: ec.id}},
                     time: {
                         date: event.start_time.strftime("%d-%m-%y"), 
                         dateString: event.start_time.strftime("%A, %d %B"), 
