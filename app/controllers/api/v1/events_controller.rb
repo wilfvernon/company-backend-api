@@ -26,7 +26,6 @@ module Api
             
             def create
                 e = params["event"]
-                byebug
                 event = {
                     name: e["name"],
                     start_time: time_gen(e["start"], e["date"]),
@@ -89,7 +88,7 @@ module Api
                     organiser: event.organiser,
                     content: event.contents[0],
                     icon: event.icon,
-                    members: event.event_characters.select{|ec|!ec.organiser}.map{|ec|{character: ec.character, jobs: ec.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}, id: ec.id}},
+                    members: event.event_characters.select{|ec|!ec.organiser}.map{|ec|{character: ec.character, slot: ec.slot, jobs: ec.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}, id: ec.id}},
                     time: {
                         date: event.start_time.strftime("%d-%m-%y"), 
                         dateString: event.start_time.strftime("%A, %d %B"), 

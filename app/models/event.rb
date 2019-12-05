@@ -12,7 +12,7 @@ class Event < ApplicationRecord
 
     def organiser
         if org = self.event_characters.find{|ec|ec.organiser}
-            {character: org.character, jobs: org.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}, id: org.id}
+            {character: org.character, slot: org.slot, jobs: org.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}, id: org.id}
         else
             "none"
         end 

@@ -10,6 +10,9 @@ Rails.application.routes.draw do
       get "/characters/:id/communities", to: "communities#character_index"
       get "/communities/search", to: "communities#search"
       get "/events/:id/threads", to: "event_threads#event_index"
+      get "/event_characters/:id/selected_job", to: "event_characters#selected_job"
+
+      patch "/event_characters/slot/:id", to: "event_characters#designate_slot"
 
       resources :characters
       resources :event_posts

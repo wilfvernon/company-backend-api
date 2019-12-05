@@ -25,8 +25,33 @@ module Api
                         }
 
                     
-                    render json: { valid: true, event: event_json(event), ec: {character: ec.character, jobs: ec.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}} } 
+                    render json: { valid: true, event: event_json(event), ec: {character: ec.character, slot: ec.slot, jobs: ec.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}} } 
                 else render json: { valid: false }
+                end
+            end
+
+            def designate_slot
+                ec = EventCharacter.find(params[:id])
+                ec2 = ec.event.event_characters.find{|evc|evc.slot == params[:slot]}
+                
+                ec.update(slot: params[:slot])
+                if ec2           
+                    ec2.update(slot: nil)   
+                    render json: [
+                        {character: ec.character, slot: ec.slot, jobs: ec.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}, id: ec.id},
+                        {character: ec2.character, slot: ec2.slot, jobs: ec2.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}, id: ec2.id}]               
+                else
+                    render json: [{character: ec.character, slot: ec.slot, jobs: ec.event_character_jobs.map{|ecj|{job: ecj.job, id: ecj.id, selected:ecj.selected}}, id: ec.id}]
+                end
+            end
+
+            def selected_job
+                ec = EventCharacter.find(params[:id])
+                if ec.event_character_jobs
+                    ecj = ec.event_character_jobs.find{|ecj|ecj.selected}
+                    render json: ecj ? ecj.job : nil
+                else
+                    render json: nil
                 end
             end
 
