@@ -7,46 +7,78 @@ class Time
     end
 end
 
-# Account.destroy_all
-# Character.destroy_all
+Account.destroy_all
+Character.destroy_all
 # Content.destroy_all
-# Event.destroy_all
-# ContentEvent.destroy_all
-# EventCharacter.destroy_all
-# Community.destroy_all
-# CommunityCharacter.destroy_all
+Event.destroy_all
+ContentEvent.destroy_all
+EventCharacter.destroy_all
+EventCharacterJob.destroy_all
+Community.destroy_all
+CommunityCharacter.destroy_all
+EventThread.destroy_all
+EventPost.destroy_all
+CommunityThread.destroy_all
+CommunityPost.destroy_all
 
-# a1 = Account.create({
-#     username: "smi"
-# })
 
 
-# response = RestClient.get("https://xivapi.com/character/18875885")
-# data = JSON.parse(response)["Character"]
-# character = {
-#     api_id: data["ID"].to_s,
-#     name: data["Name"],
-#     server: data["Server"],
-#     profile_image: data["Avatar"],
-#     avatar: data["Portrait"],
-#     account_id: a1.id ,
-#     primary: true
-# }
-# character = Character.create(character)
+a1 = Account.create({
+    username: "goose"
+})
 
-# response = RestClient.get("http://xivapi.com/freecompany/9229283011365769087")
-# data = JSON.parse(response)["FreeCompany"]
-# company = {
-#     api_id: data["ID"].to_s,
-#     name: data["Name"],
-#     server: data["Server"],
-#     category: "FC",
-#     image_base: data["Crest"][0],
-#     image_mid: data["Crest"][1],
-#     image_top: data["Crest"][2],
-#     description: "Hey I'm Some and I like pizza"
-# }
-# company = Community.create(company)
+
+response = RestClient.get("https://xivapi.com/character/18875885")
+data = JSON.parse(response)["Character"]
+character = {
+    api_id: data["ID"].to_s,
+    name: data["Name"],
+    server: data["Server"],
+    profile_image: data["Avatar"],
+    avatar: data["Portrait"],
+    account_id: a1.id ,
+    primary: true
+}
+character = Character.create(character)
+
+a2 = Account.create({
+    username: "some"
+})
+
+response = RestClient.get("https://xivapi.com/character/14492494")
+data = JSON.parse(response)["Character"]
+character2 = {
+    api_id: data["ID"].to_s,
+    name: data["Name"],
+    server: data["Server"],
+    profile_image: data["Avatar"],
+    avatar: data["Portrait"],
+    account_id: a2.id ,
+    primary: true
+}
+character2 = Character.create(character2)
+
+response = RestClient.get("http://xivapi.com/freecompany/9229283011365769087")
+data = JSON.parse(response)["FreeCompany"]
+company = {
+    api_id: data["ID"].to_s,
+    name: data["Name"],
+    server: data["Server"],
+    category: "FC",
+    image_base: data["Crest"][0],
+    image_mid: data["Crest"][1],
+    image_top: data["Crest"][2],
+    description: "Friendly guild for casual and hardcore content alike - active on comms and open to all"
+}
+company = Community.create(company)
+
+community_character = {
+    community_id: company.id,
+    character_id: character2.id,
+    role: "admin"
+}
+
+CommunityCharacter.create(community_character)
 
 # new_company = {
 #     name: "bad boys",
