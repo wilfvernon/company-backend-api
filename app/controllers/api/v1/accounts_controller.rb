@@ -38,10 +38,14 @@ module Api
             end
 
             def validate_new
-                if account = Account.all.find{|account|account.username == params["name"]}
+                if params["name"]
+                    if account = Account.all.find{|account|account.username == params["name"]}
+                        render json: { valid: false }
+                    else 
+                        render json: { valid: true }
+                    end
+                else
                     render json: { valid: false }
-                else 
-                    render json: { valid: true }
                 end
             end
         end
