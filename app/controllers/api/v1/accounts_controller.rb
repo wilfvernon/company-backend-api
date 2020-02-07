@@ -26,9 +26,13 @@ module Api
             end
 
             def validate
-                if account = Account.all.find{|account|account.username == params["name"]}
-                    render json: { valid: true, account: account, communities: account.communities, characters: account.characters }
-                else 
+                if params["name"]
+                    if account = Account.all.find{|account|account.username == params["name"]}
+                        render json: { valid: true, account: account, communities: account.communities, characters: account.characters }
+                    else 
+                        render json: { valid: false }
+                    end
+                else
                     render json: { valid: false }
                 end
             end
