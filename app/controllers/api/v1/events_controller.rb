@@ -23,6 +23,15 @@ module Api
                 events = members.map{|member|member.events}.flatten.uniq{|event|event.id}.select{|event| DateTime.now < event.end_time}.sort_by{|event|event.start_time}.map{|event| event_json(event)}
                 render json: events
             end
+
+            def destroy
+                event = Event.find(params["id"])
+                if event.destroy
+                    render json: {value: "success"}
+                else
+                    render json: {value: "failure"}
+                end
+            end
             
             def create
                 e = params["event"]

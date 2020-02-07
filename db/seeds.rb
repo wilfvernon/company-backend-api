@@ -9,7 +9,7 @@ end
 
 Account.destroy_all
 Character.destroy_all
-# Content.destroy_all
+Content.destroy_all
 Event.destroy_all
 ContentEvent.destroy_all
 EventCharacter.destroy_all
@@ -20,6 +20,7 @@ EventThread.destroy_all
 EventPost.destroy_all
 CommunityThread.destroy_all
 CommunityPost.destroy_all
+Job.destroy_all
 
 
 
