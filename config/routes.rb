@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "/accounts/validate/:name", to: "accounts#validate"
-      get "/accounts/validate_new/:name", to: "accounts#validate_new"
       get "/accounts/:id/events", to: "events#account_index"
       get "/accounts/:id/upcoming_events", to: "events#account_upcoming_index"
       get "/accounts/:id/characters", to: "characters#account_index"
@@ -12,6 +11,8 @@ Rails.application.routes.draw do
       get "/communities/:id/threads", to: "community_threads#community_index"
       get "/events/:id/threads", to: "event_threads#event_index"
       get "/event_characters/:id/selected_job", to: "event_characters#selected_job"
+
+      post "/accounts/validate_new", to: "accounts#validate_new"
 
       patch "/event_characters/slot/:id", to: "event_characters#designate_slot"
 
