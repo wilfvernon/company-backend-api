@@ -32,29 +32,44 @@ module Api
                     render json: {value: "failure"}
                 end
             end
+
+            def update
+                #need to solve finding previous join tables - for character, could send over account id? content_events will make sense when multiple content per event are implemented#
+                target_event = Event.find(params["id"])
+                e = params["event"]
+                event = format_event(e)
+                if target_event.update(event)
+                    target_ec = EventCharacter.all.find{|ec|ec.character_id == params["eventCharacterId"] && ec.event_id == target_event.id}
+                    event_character = format_event_character(target_event, params["eventCharacterId"])
+                    if target_ec.update(event_character)
+                        target_content_event = ContentEvent.all.find{|ce| ce.event_id == target_event.id}
+                        content_event = {
+                            content_id: params["eventContentId"],
+                            event_id: target_event.id
+                        }
+                        if target_content_event.update(content_event)
+                            ecjs = target_ec.jobs
+                            ecjs.destroy_all
+                            create_ecjs(params["jobIds"], target_ec.id)
+                            render json: {valid: true, event: event_json(target_event)}
+                        else
+                            render json: {valid: false}
+                        end
+                    else
+                        render json: {valid: false}
+                    end
+                else
+                    render json: {valid: false}
+                end
+            end
             
             def create
                 e = params["event"]
-                event = {
-                    name: e["name"],
-                    start_time: time_gen(e["start"], e["date"]),
-                    end_time: time_gen(e["end"], e["date"]),
-                    location: e["location"],
-                    purpose: e["purpose"],
-                    category: e["category"],
-                    description: e["description"],
-                    community_id: params["eventCommunityId"],
-                    icon: e["icon"]
-                }
+                event = format_event(e)
                 event = Event.new(event)
                 if event.save
 
-                    event_character = {
-                        character_id: params["eventCharacterId"],
-                        event_id: event.id,
-                        organiser: true 
-                    }
-
+                    event_character = format_event_character(e, params["eventCharacterId"])
 
                     content_event = {
                         content_id: params["eventContentId"],
@@ -63,14 +78,7 @@ module Api
 
                     event_character=EventCharacter.new(event_character)
                     if event_character.save && ContentEvent.create(content_event)
-                        params[:jobIds].map{|job_id|
-                            ecj={
-                                job_id: job_id,
-                                event_character_id: event_character.id,
-                                selected: false
-                            }
-                            EventCharacterJob.create(ecj)
-                        }
+                        create_ecjs(params["jobIds"], event_character.id)
                         render json: {valid: true, event: event_json(event)}
                     else
                         render json: {valid: false}
@@ -108,6 +116,40 @@ module Api
                         timezone: event.start_time.strftime("%z"),
                         happened: !!(DateTime.now > event.end_time)
                     }
+                }
+            end
+
+            def format_event(e)
+                event = {
+                    name: e["name"],
+                    start_time: time_gen(e["start"], e["date"]),
+                    end_time: time_gen(e["end"], e["date"]),
+                    location: e["location"],
+                    purpose: e["purpose"],
+                    category: e["category"],
+                    description: e["description"],
+                    community_id: params["eventCommunityId"],
+                    icon: e["icon"]
+                }
+            end
+
+            def format_event_character(e, cId)
+                ec = {
+                    character_id: cId,
+                    event_id: e.id,
+                    organiser: true,
+                    slot: nil 
+                }
+            end
+
+            def create_ecjs(jIds, ecId)
+                jIds.map{|job_id|
+                    ecj={
+                        job_id: job_id,
+                        event_character_id: ecId,
+                        selected: false
+                    }
+                    EventCharacterJob.create(ecj)
                 }
             end
 
