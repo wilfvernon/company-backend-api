@@ -69,7 +69,7 @@ module Api
                 event = Event.new(event)
                 if event.save
 
-                    event_character = format_event_character(e, params["eventCharacterId"])
+                    event_character = format_event_character(event, params["eventCharacterId"])
 
                     content_event = {
                         content_id: params["eventContentId"],
