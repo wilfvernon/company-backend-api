@@ -11,7 +11,7 @@ module Api
                     character_id: params["character_id"],
                     role: "member"
             })
-            render json: cc.save ? { valid: true } : { valid: false }
+            render json: cc.save ? { valid: true, community: Community.find(params["community_id"]) } : { valid: false }
             end
         end
     end
