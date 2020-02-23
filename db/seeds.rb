@@ -9,7 +9,7 @@ end
 
 # Account.destroy_all
 # Character.destroy_all
-Content.destroy_all
+# Content.destroy_all
 # Event.destroy_all
 # ContentEvent.destroy_all
 # EventCharacter.destroy_all
@@ -89,74 +89,90 @@ Content.destroy_all
 # }
 # Community.create(new_company)
 
-##Stormblood Trials##
-currentTrialIds=*(20045..20061)
+##Maps##
+currentTrialIds=[55001, 55002, 55003, 55004, 55006]
 currentTrialIds.map do |id|
     response = RestClient.get("https://xivapi.com/instanceContent/" + id.to_s)
     data = JSON.parse(response)
     content = {
         name: data["ContentFinderCondition"]["Name"],
-        category: (data["ContentFinderCondition"]["Name"].include?("(Extreme)") || data["ContentFinderCondition"]["Name"].include?("Minstrel")? "Extreme ": "") + "Trial",
+        category: "Treasure Hunt",
         image: data["Banner"],
         minimum_level: data["ContentFinderCondition"]["ClassJobLevelRequired"],
         minimum_ilevel: data["ContentFinderCondition"]["ItemLevelRequired"],
         api_id: data["ID"].to_s,
-        expansion: "Stormblood"
+        expansion: "Shadowbringers"
     }
     Content.create(content)
 end
+##Stormblood Trials##
+# currentTrialIds=*(20045..20061)
+# currentTrialIds.map do |id|
+#     response = RestClient.get("https://xivapi.com/instanceContent/" + id.to_s)
+#     data = JSON.parse(response)
+#     content = {
+#         name: data["ContentFinderCondition"]["Name"],
+#         category: (data["ContentFinderCondition"]["Name"].include?("(Extreme)") || data["ContentFinderCondition"]["Name"].include?("Minstrel")? "Extreme ": "") + "Trial",
+#         image: data["Banner"],
+#         minimum_level: data["ContentFinderCondition"]["ClassJobLevelRequired"],
+#         minimum_ilevel: data["ContentFinderCondition"]["ItemLevelRequired"],
+#         api_id: data["ID"].to_s,
+#         expansion: "Stormblood"
+#     }
+#     Content.create(content)
+# end
 
 #Stormblood Raids##
-currentRaidIds=*(30049..30077)
-currentRaidIds.map do |id|
-    response = RestClient.get("https://xivapi.com/instanceContent/" + id.to_s)
-    data = JSON.parse(response)
-    content = {
-        name: data["ContentFinderCondition"]["Name"],
-        category: (data["ContentFinderCondition"]["Name"].include?("(Savage)") || data["ContentFinderCondition"]["Name"].include?("Ultimate")? "Savage ": "") + "Raid",
-        image: data["Banner"],
-        minimum_level: 80,
-        minimum_ilevel: data["ContentFinderCondition"]["ItemLevelRequired"],
-        api_id: data["ID"].to_s,
-        expansion: "Stormblood"
-    }
-    Content.create(content)
-end
+# currentRaidIds=*(30049..30077)
+# currentRaidIds.map do |id|
+#     response = RestClient.get("https://xivapi.com/instanceContent/" + id.to_s)
+#     data = JSON.parse(response)
+#     content = {
+#         name: data["ContentFinderCondition"]["Name"],
+#         category: (data["ContentFinderCondition"]["Name"].include?("(Savage)") || data["ContentFinderCondition"]["Name"].include?("Ultimate")? "Savage ": "") + "Raid",
+#         image: data["Banner"],
+#         minimum_level: 80,
+#         minimum_ilevel: data["ContentFinderCondition"]["ItemLevelRequired"],
+#         api_id: data["ID"].to_s,
+#         expansion: "Stormblood"
+#     }
+#     Content.create(content)
+# end
 
 ##Shadowbringers Trials##
 
-currentTrialIds=*(20062..20069)
-currentTrialIds.map do |id|
-    response = RestClient.get("https://xivapi.com/instanceContent/" + id.to_s)
-    data = JSON.parse(response)
-    content = {
-        name: data["ContentFinderCondition"]["Name"],
-        category: (data["ContentFinderCondition"]["Name"].include?("(Extreme)") || data["ContentFinderCondition"]["Name"].include?("Minstrel")? "Extreme ": "") + "Trial",
-        image: data["Banner"],
-        minimum_level: data["ContentFinderCondition"]["ClassJobLevelRequired"],
-        minimum_ilevel: data["ContentFinderCondition"]["ItemLevelRequired"],
-        api_id: data["ID"].to_s,
-        expansion: "Shadowbringers"
-    }
-    Content.create(content)
-end
+# currentTrialIds=*(20062..20069)
+# currentTrialIds.map do |id|
+#     response = RestClient.get("https://xivapi.com/instanceContent/" + id.to_s)
+#     data = JSON.parse(response)
+#     content = {
+#         name: data["ContentFinderCondition"]["Name"],
+#         category: (data["ContentFinderCondition"]["Name"].include?("(Extreme)") || data["ContentFinderCondition"]["Name"].include?("Minstrel")? "Extreme ": "") + "Trial",
+#         image: data["Banner"],
+#         minimum_level: data["ContentFinderCondition"]["ClassJobLevelRequired"],
+#         minimum_ilevel: data["ContentFinderCondition"]["ItemLevelRequired"],
+#         api_id: data["ID"].to_s,
+#         expansion: "Shadowbringers"
+#     }
+#     Content.create(content)
+# end
 
 ##ShadowBringers Raids##
-currentRaidIds=*(30078..30095)
-currentRaidIds.map do |id|
-    response = RestClient.get("https://xivapi.com/instanceContent/" + id.to_s)
-    data = JSON.parse(response)
-    content = {
-        name: data["ContentFinderCondition"]["Name"],
-        category: (data["ContentFinderCondition"]["Name"].include?("(Savage)") || data["ContentFinderCondition"]["Name"].include?("Ultimate")? "Savage ": "") + "Raid",
-        image: data["Banner"],
-        minimum_level: 80,
-        minimum_ilevel: data["ContentFinderCondition"]["ItemLevelRequired"],
-        api_id: data["ID"].to_s,
-        expansion: "Shadowbringers"
-    }
-    Content.create(content)
-end
+# currentRaidIds=*(30078..30095)
+# currentRaidIds.map do |id|
+#     response = RestClient.get("https://xivapi.com/instanceContent/" + id.to_s)
+#     data = JSON.parse(response)
+#     content = {
+#         name: data["ContentFinderCondition"]["Name"],
+#         category: (data["ContentFinderCondition"]["Name"].include?("(Savage)") || data["ContentFinderCondition"]["Name"].include?("Ultimate")? "Savage ": "") + "Raid",
+#         image: data["Banner"],
+#         minimum_level: 80,
+#         minimum_ilevel: data["ContentFinderCondition"]["ItemLevelRequired"],
+#         api_id: data["ID"].to_s,
+#         expansion: "Shadowbringers"
+#     }
+#     Content.create(content)
+# end
 
 # event = {
 #     name: "E3S prog",
